@@ -1,76 +1,63 @@
 # LocalAI
 
-**Your models. Your project. Your private offline AI chat & coding agent.**
+**A free, private AI app for Windows that runs 100% offline on your own computer.**
 
-LocalAI is a lightweight Windows desktop app built with **Tauri v2**, **React**, **TypeScript**, and **Rust**, powered by an embedded **`llama.cpp` (`llama-server`)** runtime (CPU + Vulkan GPU). Everything runs 100% locally using your own `.gguf` models—no cloud APIs, telemetry, or external runtime installers required.
+Download one file (`LocalAI.exe`), pick any `.gguf` AI model on your PC, and start chatting or coding—with no internet connection, no subscriptions, no API keys, and no extra software to install.
+
+👉 **[Download LocalAI.exe](https://github.com/Real-Dark-Horse/LocalAi/releases/latest/download/LocalAI.exe)**
+---
+
+
+<img width="1282" height="852" alt="image" src="https://github.com/user-attachments/assets/d4da2c54-c428-4a8c-b436-3fa968a8d6ab" />
+
+## How LocalAI Can Help You
+
+- **100% Private & Offline:** Your chats, documents, and code never leave your computer.
+- **Zero Monthly Fees:** Run open-weight `.gguf` models on your own PC with no token limits or subscriptions.
+- **Single Portable File:** Everything needed to run AI models (CPU and Vulkan GPU engines) is built right into `LocalAI.exe`—no Python, Docker, or external installs needed.
+- **Great for Both Everyday Chat & Coding:** Ask general questions in **Chat** mode, or open a project folder so the AI can read your files, suggest edits, and run tests.
+- **Automatic Hardware Tuning:** Detects your CPU, RAM, and GPU automatically to pick good settings, while letting you customize context size, GPU layers, threads, and temperature anytime.
+
+---
+
+<img width="1282" height="852" alt="image" src="https://github.com/user-attachments/assets/bc2d9ea8-12c1-4f6d-bc0b-4390434890be" />
+
 
 ## Features
 
-- **Three Execution Modes**
-  - **Chat**: General-purpose offline conversations without needing a project folder.
-  - **Ask**: Coding agent with workspace tools (`list_dir`, `read_file`, `search_files`, `write_file`, `replace_in_file`, `run_command`). Shows diff previews and asks approval before edits or commands.
-  - **Auto**: Autonomous coding mode—reads and edits files automatically and only asks confirmation for risky shell commands.
-- **Universal GGUF Model Support**
-  - Scans your models folder (including split `-00001-of-...` GGUFs), reads GGUF v2/v3 metadata, and auto-tunes backend (Vulkan GPU or CPU), GPU layers, threads, and context window.
-  - Supports native OpenAI-style tool calling with automatic fallback parsing (`<tool_call>`, `[TOOL_CALLS]`, ` ```tool `, ` ```json `) and `<think>`/`<reasoning>` extraction.
-  - Fast vs. Think toggle for reasoning models, plus live token/sec, RAM/VRAM, and context usage telemetry.
-- **Single Portable Executable**
-  - Packages into a single standalone `LocalAI.exe` with embedded CPU + Vulkan `llama-server` binaries.
+### Three Modes for Any Task
+Switch modes anytime from the bottom-left menu:
+- **Chat Mode:** General-purpose AI chat with no project folder required. Ideal for questions, writing, summarizing, and quick code snippets.
+- **Ask Mode (Coding):** Open a project folder and let LocalAI inspect files, edit code, and run commands—showing a diff preview and asking your approval before every change or command.
+- **Auto Mode (Coding):** Autonomous coding mode that reads and edits files automatically, only pausing to ask confirmation before risky commands.
 
-## Tech Stack
+<img width="1282" height="852" alt="image" src="https://github.com/user-attachments/assets/123d6cb4-5a74-4829-982f-eeeaeca96f04" />
 
-- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, Zustand
-- **Backend**: Rust, Tauri v2, `sysinfo`, `nvml-wrapper`
-- **Inference**: `llama.cpp` (`llama-server.exe`) with CPU and Vulkan backends
 
-## Getting Started (Development)
+### Built-in Coding Tools
+In **Ask** and **Auto** modes, LocalAI can:
+- Browse folders, search across your codebase, and read files.
+- Create new files and make targeted edits with clear diff previews.
+- Run commands in PowerShell or CMD (with safety blocks against destructive system commands).
+- Let you attach or mention files quickly by typing `@filename` or clicking the attach button.
 
-### Prerequisites
+### Broad Model Support & Controls
+- **GGUF Models:** Supports `.gguf` text-generation models (including split multi-part files like `-00001-of-...`) across Qwen, Llama, Gemma, Mistral, DeepSeek, Phi, and more.
+- **Fast vs. Think Toggle:** Switch between **Fast** mode for quick direct answers and **Think** mode for step-by-step reasoning on thinking models.
+- **Live Telemetry:** View tokens/sec speed, context window usage, CPU/RAM, and GPU/VRAM usage directly in the app.
+- **Search & Export:** Search conversations with `Ctrl+K`, toggle the sidebar with `Ctrl+B`, rename chats, and export any conversation to Markdown.
+- **Update Notifications:** Automatically checks GitHub Releases on startup (when online) and notifies you when a newer version of `LocalAI.exe` is available to download.
 
-- **Windows 10/11 (x64)** with Microsoft Edge WebView2
-- **Node.js** 18+
-- **Rust & Cargo** (stable MSVC toolchain)
-- **`llama.cpp` Windows x64 binaries** placed under:
-  - `runtime/cpu/` (`llama-server.exe` + CPU/shared DLLs)
-  - `runtime/vulkan/` (`llama-server.exe` + `ggml-vulkan.dll` + shared DLLs)
+---
 
-### Run in Dev Mode
+## How to Use It
 
-```bash
-npm install
-npm run tauri dev
-```
-
-Or double-click `run-localai.bat` on Windows.
-
-### Build Standalone `LocalAI.exe`
-
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/package.ps1
-```
-
-This packs the CPU + Vulkan runtimes into a compressed payload, builds the release binary with `--features embed-runtime`, and outputs `LocalAI.exe` in the project root.
-
-## Project Structure
-
-```text
-├── icons/                # App UI assets (loading animation)
-├── runtime/              # Local llama.cpp CPU & Vulkan binaries (not tracked in git)
-├── scripts/
-│   ├── pack_runtime.mjs  # Deduplicates & compresses runtime binaries for embedding
-│   └── package.ps1       # Builds standalone LocalAI.exe
-├── src/                  # React + TypeScript frontend
-│   ├── components/       # Composer, Conversation, Header, Overlays, Sidebar, UI
-│   ├── lib/              # Agent loop, LLM SSE client, prompts, tools, Tauri bridge
-│   └── store/            # Zustand stores (app, chat, stats, workspace)
-├── src-tauri/            # Rust Tauri v2 backend
-│   ├── capabilities/     # Tauri permission capabilities
-│   ├── icons/            # App icons (.ico / .png)
-│   └── src/              # Hardware detection, GGUF scanner, server manager, FS/shell tools
-├── package.json
-└── run-localai.bat
-```
-
-## License
-
-MIT — see [LICENSE](LICENSE).
+1. **Download LocalAI**
+   - Click **[Download LocalAI.exe](https://github.com/Real-Dark-Horse/LocalAi/releases/latest/download/LocalAI.exe)** and save it anywhere on your Windows PC.
+2. **Download a `.gguf` Model**
+   - Download any **Text Generation** `.gguf` model from Hugging Face (for example, `Qwen3-4B-Q4_K_M.gguf` or `Qwen2.5-Coder-7B-Instruct-Q4_K_M.gguf`) into a folder on your PC.
+   - *Tip:* On a 16 GB RAM PC, 4B–8B `Q4_K_M` models offer the best balance of speed and quality.
+3. **Open `LocalAI.exe` and Start**
+   - Double-click `LocalAI.exe`, choose the folder containing your `.gguf` files, select a model, and click **Load Model**.
+   - **To chat:** Pick **Chat** mode (or click **CHATS → +**) and start typing—no project folder needed.
+   - **To code:** Click **WORKSPACES → +** to open your project folder, choose **Ask** or **Auto** mode, and tell LocalAI what to build, explain, or fix.
