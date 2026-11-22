@@ -1,0 +1,37 @@
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+const host = process.env.TAURI_DEV_HOST;
+
+export default defineConfig(async () => ({
+  plugins: [react()],
+  clearScreen: false,
+  build: {
+    target: "es2021",
+    minify: "esbuild",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom", "zustand"],
+          "vendor-markdown": ["react-markdown", "remark-gfm", "rehype-highlight"],
+          "vendor-ui": ["lucide-react", "diff", "lottie-web"],
+        },
+      },
+    },
+  },
+  server: {
+    port: 1420,
+    strictPort: true,
+    host: host || false,
+    hmr: host
+      ? {
+          protocol: "ws",
+          host,
+          port: 1421,
+        }
+      : undefined,
+    watch: {
+      ignored: ["**/src-tauri/**"],
+    },
+  },
+}));

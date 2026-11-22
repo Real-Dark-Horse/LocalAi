@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Frontend build output
+dist/
+
+# Rust / Tauri build artifacts & embedded runtime staging
+src-tauri/target/
+src-tauri/gen/schemas/
+src-tauri/embedded_runtime.bin
+src-tauri/embedded_runtime.sha
+
+# Local portable user data, chats, logs, and WebView2 cache
+data/
+
+# Large binaries (distribute via GitHub Releases instead of git)
+LocalAI.exe
+runtime/
+models/
+*.gguf
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/

@@ -1,0 +1,110 @@
+@import "@fontsource/inter/latin-400.css";
+@import "@fontsource/inter/latin-500.css";
+@import "@fontsource/inter/latin-600.css";
+@import "@fontsource/inter/latin-700.css";
+@import "@fontsource/jetbrains-mono/latin-400.css";
+@import "@fontsource/jetbrains-mono/latin-500.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    color: #ececec;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow: hidden;
+  }
+
+  code,
+  pre,
+  kbd {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+    font-size: 12.5px;
+  }
+}
+
+/* Custom subtle dark scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2e2e2e;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3e3e3e;
+}
+
+/* Diff line tints */
+.diff-line-add {
+  background-color: rgba(34, 197, 94, 0.12);
+}
+
+.diff-line-remove {
+  background-color: rgba(239, 68, 68, 0.12);
+}
+
+/* Recolor black Lottie strokes from loading.json to currentColor on dark surfaces */
+.lottie-loading svg path {
+  stroke: currentColor !important;
+}
+
+/* Offline highlight.js dark token colors */
+.hljs {
+  color: #e2e8f0;
+  background: transparent;
+}
+.hljs-comment,
+.hljs-quote {
+  color: #6b7280;
+  font-style: italic;
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #c084fc;
+}
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #f59e0b;
+}
+.hljs-string,
+.hljs-doctag {
+  color: #4ade80;
+}
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #60a5fa;
+}
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #fbbf24;
+}
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #38bdf8;
+}
+.hljs-attr,
+.hljs-attribute {
+  color: #93c5fd;
+}
